@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/css/bootstrap.ejs') %>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('./partials/components/Nav.ejs') %>
+    <div
+      class="container my-5 d-flex flex-column justify-content-center align-items-start"
+    >
+
+        <img width="60%" src="/uploads/<%= locals.blog.coverImage %>" alt="*" />
+      <h3><%= locals.blog.title %></h3>
+      <p><%= locals.blog.content %></p>
+
+      <p>Posted By : <%= locals.blog.createdBy.fullName %></p>
+      <div><% if (locals.user) { %>
+        <h3>Comments(<%= locals.comments.length %>)</h3>
+        <div class="container d-flex flex-column my-2">
+          <% comments.forEach(comment => { %>
+              <li><%= comment.content%> - <%= comment.createdBy.fullName %></li>
+          <% }) %>
+        </div>
+
+        <input name="content" type="text" class="form-control" id="content" placeholder="type your comments"></input>
+         <% } %></div>
+         <button  type="submit" class="btn btn-success my-2" id="submitBtn">Post</button>
+    </div>
+    <%- include('./partials/js/bootstrap.ejs') %>
+    <script>
+      const blogId = "<%= blog._id%>";
+      const input = document.getElementById("content");
+      const submitButton = document.getElementById("submitBtn");
+
+      submitButton.addEventListener("click",createComment)
+
+       function createComment() {
+         fetch("/comment/create",{
+          method:'POST',
+            headers:{
+'Content-Type':'application/json',
+            },
+body:JSON.stringify({
+  blogId,content:input.value
+})
+        }).then(() => window.location.reload())
+      }
+    </script>
+  </body>
+</html>

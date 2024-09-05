@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/css/bootstrap.ejs') %>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('./partials/components/Nav.ejs') %>
+    <div class="container d-flex flex-wrap">
+      <div
+        class="d-flex flex-row my-5 justify-content-center align-items-start flex-wrap flex-fill"
+      >
+        <% locals.allBlogs.forEach(blog => { %>
+        <div class="card" style="width: 18rem">
+          <img
+            src="uploads/<%= blog.coverImage %>"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title"><%= blog.title %></h5>
+            <p class="card-text"><%= blog.content.slice(0,50)%></p>
+            <a href="/blog/view/<%= blog._id %>" class="btn btn-primary"
+              >View</a
+            >
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <%- include('./partials/js/bootstrap.ejs') %>
+  </body>
+</html>
